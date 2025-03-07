@@ -20,8 +20,8 @@ dotenv.config(); // Loads the environment variables from .env file
 app.use(express.urlencoded({ extended: false }));
 // Mount it along with our other middleware, ABOVE the routes
 app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride("_method")); // new
-app.use(morgan("dev")); //new
+app.use(methodOverride("_method"));//reads the "_method query param for information about DELETE and PUT requiests"
+app.use(morgan("dev")); 
 
 //home page
 app.get('/', async(req, res) => {
@@ -55,6 +55,7 @@ app.post("/fruits", async (req, res) => {
     res.render('fruits/index.ejs', {fruits: allFruits});
   })
 
+  
 
 //show route - for sending a page with the details for one particular fruit
 app.get("/fruits/:fruitId", async (req, res) => {
@@ -63,6 +64,11 @@ app.get("/fruits/:fruitId", async (req, res) => {
   });
   
 
+  app.delete("/fruits/:fruitId", async (req, res) => {
+    await Fruit.findByIdAndDelete(req.params.fruitId);
+    res.redirect("/fruits");
+  });
+  
 // Connect to MongoDB using the connection string in the .env file
 mongoose.connect(process.env.MONGODB_URI);
 
