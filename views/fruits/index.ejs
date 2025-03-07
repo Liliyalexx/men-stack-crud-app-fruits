@@ -12,6 +12,13 @@
         console.log('this will show the client side')
         </script>
     <h1>All Fruits</h1>
+    <nav>
+        <ul>
+            <li>
+                <a href="/fruits/new" > Add new Fruit</a>
+            </li>
+        </ul>
+    </nav>
     <ul>
       <% fruits.forEach(fruit => { %>
         <li><%= fruit.name %></li>
