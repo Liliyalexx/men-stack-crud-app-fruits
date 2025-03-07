@@ -68,6 +68,37 @@ app.get("/fruits/:fruitId", async (req, res) => {
     await Fruit.findByIdAndDelete(req.params.fruitId);
     res.redirect("/fruits");
   });
+
+  // GET localhost:3000/fruits/:fruitId/edit
+
+  //edit route - used to send a page to the client 
+  // with an edit form pre-filled out with fruit details, 
+  // so the user can edit the fruit and submit the form
+
+  app.get("/fruits/:fruitId/edit", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    res.render("fruits/edit.ejs", {
+      fruit: foundFruit,
+    });
+  });
+  //update route -use to capture edit form submissions from the client and SEND TO MONGODB
+  
+// server.js
+
+app.put("/fruits/:fruitId", async (req, res) => {
+    // Handle the 'isReadyToEat' checkbox data
+    if (req.body.isReadyToEat === "on") {
+      req.body.isReadyToEat = true;
+    } else {
+      req.body.isReadyToEat = false;
+    }
+    
+    // Update the fruit in the database
+    await Fruit.findByIdAndUpdate(req.params.fruitId, req.body);
+  
+    // Redirect to the fruit's show page to see the updates
+    res.redirect(`/fruits/${req.params.fruitId}`);
+  });
   
 // Connect to MongoDB using the connection string in the .env file
 mongoose.connect(process.env.MONGODB_URI);
