@@ -36,9 +36,9 @@ app.post("/fruits", async (req, res) => {
     //     req.body.isReadyToEat = false;
     // }
     req.body.isReadyToEat = !!req.body.isReadyToEat;
-    
+
     await Fruit.create(req.body);
-   res.redirect("/fruits/new"); // URL path 
+   res.redirect("/fruits"); // URL path 
   });
 
   //index route for fruits - sends a page that lists add fruits from the database
