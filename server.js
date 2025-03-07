@@ -3,6 +3,8 @@
 const express = require('express');
 const dotenv = require("dotenv"); // require package
 const mongoose = require("mongoose"); // require package
+const methodOverride = require("method-override"); 
+const morgan = require("morgan"); 
  // Import the Fruit model
  const Fruit = require("./models/fruit.js");
 
@@ -16,6 +18,10 @@ dotenv.config(); // Loads the environment variables from .env file
 //body parser middleware:this function reads the requiest body and decodes it into req.body so we can access from data!
 
 app.use(express.urlencoded({ extended: false }));
+// Mount it along with our other middleware, ABOVE the routes
+app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method")); // new
+app.use(morgan("dev")); //new
 
 //home page
 app.get('/', async(req, res) => {
